@@ -60,8 +60,15 @@ export default class FullscreenElement extends HTMLElement {
     this.addEventListener('click', this.#handleClick.bind(this));
   }
 
+  /**
+   * @param {MouseEvent} event
+   */
   #handleClick(event) {
-    if (event.target.matches('[data-behavior="full-screen-toggle"')) {
+    const toggleEl = event.target.closest(
+      '[data-behavior="full-screen-toggle"]'
+    );
+
+    if (toggleEl) {
       event.preventDefault();
       this.toggle();
     }
