@@ -1,6 +1,6 @@
 # `<full-screen>` Element
 
-A simple custom element for triggering fullscreen mode in supported browsers.
+Simple custom element for triggering fullscreen mode in supported browsers.
 
 ## Getting Started
 
