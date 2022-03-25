@@ -25,8 +25,11 @@ class $f4ba170688a331cb$export$2e2bcd8739ae039 extends HTMLElement {
     connectedCallback() {
         this.addEventListener('click', this.#handleClick.bind(this));
     }
-     #handleClick(event) {
-        if (event.target.matches('[data-behavior="full-screen-toggle"')) {
+    /**
+   * @param {MouseEvent} event
+   */  #handleClick(event) {
+        const toggleEl = event.target.closest('[data-behavior="full-screen-toggle"]');
+        if (toggleEl) {
             event.preventDefault();
             this.toggle();
         }
