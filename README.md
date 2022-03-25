@@ -40,7 +40,7 @@ Simple default usage:
 
   <button
     type="button"
-    data-behavior="full-screen-click"
+    data-behavior="full-screen-toggle"
   >
     Toggle Fullscreen
   </button>
@@ -57,7 +57,7 @@ With a separate target:
 <full-screen target="full_screen_target">
   <button
     type="button"
-    data-behavior="full-screen-click"
+    data-behavior="full-screen-toggle"
   >
     Toggle Fullscreen
   </button>
@@ -79,12 +79,12 @@ will be the default target.
 
 ### `data-behavior`
 
-Add to a descendant of `<full-screen>` and set the value to `full-screen-click`.
+Add to a descendant of `<full-screen>` and set the value to `full-screen-toggle`.
 When clicked, this element, will call `toggle()` and toggle the fullscreen
 state.
 
 The default click will also be suppressed. Links with
-`data-behavior="full-screen-click"` won’t navigate and submit buttons won’t
+`data-behavior="full-screen-toggle"` won’t navigate and submit buttons won’t
 submit their forms.
 
 ## Properties

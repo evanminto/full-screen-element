@@ -6,14 +6,14 @@
  * `target` attribute can be used to target a different element instead.
  *
  * The button must be a descendent of this element and have the attribute
- * `data-behavior="full-screen-click"`.
+ * `data-behavior="full-screen-toggle"`.
  *
  * @example
  * ```html
  *  <full-screen>
  *    <p>Fullscreenable content</p>
  *
- *    <button type="button" data-behavior="full-screen-click">
+ *    <button type="button" data-behavior="full-screen-toggle">
  *      Toggle Fullscreen
  *    </button>
  *  </full-screen>
