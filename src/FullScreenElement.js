@@ -1,3 +1,6 @@
+import requestFullscreen from './requestFullscreen';
+import exitFullscreen from './exitFullscreen';
+
 /**
  * Adds behavior to a button so that when clicked, it requests fullscreen mode
  * for the target element.
@@ -22,8 +25,13 @@
  * @customElement full-screen
  * @attr {String} target - ID of the HTML element to make fullscreen (optional)
  */
-export default class FullscreenElement extends HTMLElement {
+export default class FullScreenElement extends HTMLElement {
   static tagName = 'full-screen';
+
+  static behaviors = {
+    TOGGLE: 'full-screen-toggle',
+    TEMPLATE: 'full-screen-template',
+  };
 
   /** @type {String} */
   #target = null;
@@ -46,18 +54,42 @@ export default class FullscreenElement extends HTMLElement {
    *
    * NOTE: This will fail unless called in the context of a user action
    */
-  toggle() {
+  async toggle() {
     const target = this.#getTargetEl();
 
-    if (document.fullscreenElement === target) {
-      return document.exitFullscreen();
-    } else {
-      return target.requestFullscreen({ navigationUI: 'hide' });
+    if (
+      document.fullscreenElement === target ||
+      document.webkitFullscreenElement === target
+    ) {
+      return exitFullscreen();
     }
+
+    return requestFullscreen(target);
   }
 
   connectedCallback() {
     this.addEventListener('click', this.#handleClick.bind(this));
+
+    if (document.fullscreenEnabled || document.webkitFullscreenEnabled) {
+      /** @type {HTMLTemplateElement} */
+      const template = this.querySelector(
+        `template[data-behavior="${FullScreenElement.behaviors.TEMPLATE}"]`
+      );
+
+      if (template) {
+        template.replaceWith(template.content.cloneNode(true));
+      }
+    }
+
+    this.attachShadow({ mode: 'open' }).innerHTML = `
+      <slot></slot>
+
+      <style>
+        :host {
+          display: block;
+        }
+      </style>
+    `;
   }
 
   /**
@@ -65,7 +97,7 @@ export default class FullscreenElement extends HTMLElement {
    */
   #handleClick(event) {
     const toggleEl = event.target.closest(
-      '[data-behavior="full-screen-toggle"]'
+      `[data-behavior="${FullScreenElement.behaviors.TOGGLE}"]`
     );
 
     if (toggleEl) {
