@@ -1,13 +1,21 @@
 class $f4ba170688a331cb$export$2e2bcd8739ae039 extends HTMLElement {
     static tagName = 'full-screen';
     /** @type {String} */ #target = null;
-    get target() {
+    /**
+   * ID of an element. If the ID is null, an empty string, or doesn't exist
+   * in the same document or shadow root as this element, this element
+   * will be the default target.
+   */ get target() {
         return this.#target === null ? this.getAttribute('target') : this.#target;
     }
     set target(value) {
         this.#target = value.toString();
     }
-    toggle() {
+    /**
+   * Toggles fullscreen on or off for the target element
+   *
+   * NOTE: This will fail unless called in the context of a user action
+   */ toggle() {
         const target = this.#getTargetEl();
         if (document.fullscreenElement === target) return document.exitFullscreen();
         else return target.requestFullscreen({
