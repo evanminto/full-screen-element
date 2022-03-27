@@ -86,7 +86,7 @@ With a template:
 
 ## Attributes on `<full-screen>`
 
-### `target`
+### target
 
 ID of an element. If the ID is null, an empty string, or doesn't exist
 in the same document or shadow root as this element, this element
