@@ -13,6 +13,18 @@
         background: white;
         padding: 1em;
       }
+
+      .exit {
+        display: none;
+      }
+
+      :fullscreen .enter {
+        display: none;
+      }
+
+      :fullscreen .exit {
+        display: inline;
+      }
     </style>
   </head>
 
@@ -21,13 +33,9 @@
       <p>This content will be shown in full screen</p>
 
       <full-screen-toggle>
-        <template data-behavior="full-screen-toggle-template">
-          <button type="button" data-behavior="full-screen-toggle-button">
-            Toggle fullscreen
-          </button>
-
-          <p>(This button and text will only appear if fullscreen is supported)</p>
-        </template>
+        <button type="button" aria-atomic="true">
+          <span class="enter">Enter</span> <span class="exit">Exit</span> fullscreen
+        </button>
       </full-screen-toggle>
     </full-screen>
   </body>

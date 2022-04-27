@@ -1,6 +1,6 @@
-# `<full-screen>` Element
+# `<full-screen>` and `<full-screen-toggle>` Elements
 
-Simple custom element for triggering fullscreen mode in supported browsers.
+Simple custom elements for triggering fullscreen mode in supported browsers.
 
 ## Getting Started
 
@@ -28,7 +28,7 @@ or
 <script src="/path/to/full-screen-element/index.js"></script>
 ```
 
-This will automatically register the custom element with the name `full-screen`.
+This will automatically register the custom elements with the names `full-screen` and `full-screen-toggle`.
 
 ## How to Use
 
@@ -38,89 +38,51 @@ Simple default usage:
 <full-screen>
   <p>Fullscreenable content</p>
 
-  <button
-    type="button"
-    data-behavior="full-screen-toggle"
-  >
-    Toggle Fullscreen
-  </button>
+  <full-screen-toggle>
+    <button type="button">
+      Toggle Fullscreen
+    </button>
+  </full-screen-toggle>
 </full-screen>
 ```
 
-With a separate target:
-
-```html
-<div id="full_screen_target">
-  <p>Fullscreenable content</p>
-</div>
-
-<full-screen target="full_screen_target">
-  <button
-    type="button"
-    data-behavior="full-screen-toggle"
-  >
-    Toggle Fullscreen
-  </button>
-</full-screen>
-```
-
-**NOTE:** When the button is outside of the target, users will only be
-able to exit fullscreen mode via built-in mechanisms such as the Escape key.
-
-With a template:
+Hide button when fullscreen isn't supported:
 
 ```html
 <full-screen>
   <p>Fullscreenable content</p>
 
-  <template data-behavior="full-screen-template">
-    <button
-      type="button"
-      data-behavior="full-screen-toggle"
-    >
-      Toggle Fullscreen
-    </button>
-  </template>
+  <full-screen-toggle>
+    <template>
+      <button type="button">
+        Toggle Fullscreen
+      </button>
+    </template>
+  </full-screen-toggle>
 </full-screen>
 ```
 
-## Attributes on `<full-screen>`
+## `<full-screen-toggle>` Behaviors
 
-### target
+Use the `data-behavior` attribute to select which elements should get custom
+behaviors associated with them, or omit it to let the element select sensible
+defaults.
 
-ID of an element. If the ID is null, an empty string, or doesn't exist
-in the same document or shadow root as this element, this element
-will be the default target.
-
-## Descendant Attributes
-
-### data-behavior
-
-This attribute assigns the specified behavior to an element in the light DOM,
-allowing the host document to customize markup, styling, and additiona JS logic
-without piercing the shadow DOM boundary.
-
-`data-behavior` must be set on a _descendant_ of a `<full-screen>` element.
-
-#### Values
-* **full-screen-template:** If fullscreen is supported in the current browser
-and `<full-screen>` is defined, the
-`<template data-behavior="full-screen-template">` will be cloned and replaced
+### Values
+* **full-screen-toggle-template:** If fullscreen is supported in the current browser
+and `<full-screen-toggle>` is defined, the
+`<template data-behavior="full-screen-toggle-template">` will be cloned and replaced
 with its clone. Why would you use this? It’s a good practice to only show UI
 that’s actually functional, so putting the button inside a `<template>` ensures
-that only users who can use fullscreen mode see the button.
-* **full-screen-toggle:** When clicked, this element, will call `toggle()` and toggle the fullscreen
-state. The default click will also be suppressed. Links with
-`data-behavior="full-screen-toggle"` won’t navigate and submit buttons won’t
-submit their forms.
+that only users who can use fullscreen mode see the button. By default the
+element will use its first `<template>` descendant.
+* **full-screen-toggle-button:** When clicked, this element will trigger the
+`full-screen-toggle` event on the `<full-screen-toggle>` element. The default
+click will also be suppressed. Links with `data-behavior="full-screen-toggle"`
+won’t navigate and submit buttons won’t submit their forms. By default the
+element will use its first `<button>` descendant.
 
-## Properties
-
-### target
-
-Reflected property version of the `target` attribute.
-
-## Methods
+## Methods on `<full-screen>`
 
 ### toggle()
 
@@ -130,9 +92,11 @@ Toggles fullscreen on or off for the target element.
 
 ## Events
 
-This element has no custom events, but you can listen for the built-in
-fullscreen events, `fullscreenchange` and `fullscreenerror`.
+### full-screen-toggle
 
-**NOTE:** The built-in fullscreen events will fire on whichever element is in
-fullscreen mode. That means if you use the `target` attribute, the events will
-fire on the target, _not_ the `<full-screen>` element.
+Fired by `<full-screen-toggle>`.
+
+### Built-in Events
+
+`<full-screen>` has no custom events, but you can listen for the built-in
+fullscreen events, `fullscreenchange` and `fullscreenerror`.

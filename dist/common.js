@@ -1,9 +1,6 @@
 var $k52p8$swchelpers = require("@swc/helpers");
 var $k52p8$regeneratorruntime = require("regenerator-runtime");
 
-function $parcel$defineInteropFlag(a) {
-  Object.defineProperty(a, '__esModule', {value: true, configurable: true});
-}
 function $parcel$export(e, n, v, s) {
   Object.defineProperty(e, n, {get: v, set: s, enumerable: true, configurable: true});
 }
@@ -11,9 +8,24 @@ function $parcel$interopDefault(a) {
   return a && a.__esModule ? a.default : a;
 }
 
-$parcel$defineInteropFlag(module.exports);
+$parcel$export(module.exports, "FullscreenElement", function () { return $f7af69084d67aeff$export$2e2bcd8739ae039; });
+$parcel$export(module.exports, "FullScreenToggleElement", function () { return $27da1b11015cdc7c$export$2e2bcd8739ae039; });
 
-$parcel$export(module.exports, "default", function () { return $6be4b30feeb09703$export$2e2bcd8739ae039; });
+
+
+var $7aabbee43d77697a$export$2e2bcd8739ae039 = /*#__PURE__*/ function(Event) {
+    "use strict";
+    $k52p8$swchelpers.inherits($7aabbee43d77697a$export$2e2bcd8739ae039, Event);
+    var _super = $k52p8$swchelpers.createSuper($7aabbee43d77697a$export$2e2bcd8739ae039);
+    function $7aabbee43d77697a$export$2e2bcd8739ae039() {
+        $k52p8$swchelpers.classCallCheck(this, $7aabbee43d77697a$export$2e2bcd8739ae039);
+        return _super.call(this, $7aabbee43d77697a$export$2e2bcd8739ae039.eventName, {
+            bubbles: true
+        });
+    }
+    return $7aabbee43d77697a$export$2e2bcd8739ae039;
+}($k52p8$swchelpers.wrapNativeSuper(Event));
+$k52p8$swchelpers.defineProperty($7aabbee43d77697a$export$2e2bcd8739ae039, "eventName", 'full-screen-toggle');
 
 
 
@@ -57,41 +69,15 @@ function $05b9d84a38756c60$export$2e2bcd8739ae039() {
 }
 
 
-var /** @type {String} */ _target = /*#__PURE__*/ new WeakMap(), /**
-   * @param {MouseEvent} event
-   */ _handleClick = /*#__PURE__*/ new WeakSet(), /**
-   * @returns {HTMLElement}
-   */ _getTargetEl = /*#__PURE__*/ new WeakSet();
 var $f7af69084d67aeff$export$2e2bcd8739ae039 = /*#__PURE__*/ function(HTMLElement) {
     "use strict";
     $k52p8$swchelpers.inherits($f7af69084d67aeff$export$2e2bcd8739ae039, HTMLElement);
     var _super = $k52p8$swchelpers.createSuper($f7af69084d67aeff$export$2e2bcd8739ae039);
     function $f7af69084d67aeff$export$2e2bcd8739ae039() {
         $k52p8$swchelpers.classCallCheck(this, $f7af69084d67aeff$export$2e2bcd8739ae039);
-        var _this;
-        _this = _super.apply(this, arguments);
-        $k52p8$swchelpers.classPrivateMethodInit($k52p8$swchelpers.assertThisInitialized(_this), _handleClick);
-        $k52p8$swchelpers.classPrivateMethodInit($k52p8$swchelpers.assertThisInitialized(_this), _getTargetEl);
-        $k52p8$swchelpers.classPrivateFieldInit($k52p8$swchelpers.assertThisInitialized(_this), _target, {
-            writable: true,
-            value: null
-        });
-        return _this;
+        return _super.apply(this, arguments);
     }
     $k52p8$swchelpers.createClass($f7af69084d67aeff$export$2e2bcd8739ae039, [
-        {
-            key: "target",
-            get: /**
-   * ID of an element. If the ID is null, an empty string, or doesn't exist
-   * in the same document or shadow root as this element, this element
-   * will be the default target.
-   */ function get() {
-                return $k52p8$swchelpers.classPrivateFieldGet(this, _target) === null ? this.getAttribute('target') : $k52p8$swchelpers.classPrivateFieldGet(this, _target);
-            },
-            set: function set(value) {
-                $k52p8$swchelpers.classPrivateFieldSet(this, _target, value.toString());
-            }
-        },
         {
             key: "toggle",
             value: /**
@@ -101,19 +87,17 @@ var $f7af69084d67aeff$export$2e2bcd8739ae039 = /*#__PURE__*/ function(HTMLElemen
    */ function toggle() {
                 var _this = this;
                 return $k52p8$swchelpers.asyncToGenerator(($parcel$interopDefault($k52p8$regeneratorruntime)).mark(function _callee() {
-                    var target;
                     return ($parcel$interopDefault($k52p8$regeneratorruntime)).wrap(function _callee$(_ctx) {
                         while(1)switch(_ctx.prev = _ctx.next){
                             case 0:
-                                target = $k52p8$swchelpers.classPrivateMethodGet(_this, _getTargetEl, getTargetEl).call(_this);
-                                if (!(document.fullscreenElement === target || document.webkitFullscreenElement === target)) {
-                                    _ctx.next = 3;
+                                if (!(document.fullscreenElement === _this || document.webkitFullscreenElement === _this)) {
+                                    _ctx.next = 2;
                                     break;
                                 }
                                 return _ctx.abrupt("return", $05b9d84a38756c60$export$2e2bcd8739ae039());
+                            case 2:
+                                return _ctx.abrupt("return", $77c7e3cc05fe8a7b$export$2e2bcd8739ae039(_this));
                             case 3:
-                                return _ctx.abrupt("return", $77c7e3cc05fe8a7b$export$2e2bcd8739ae039(target));
-                            case 4:
                             case "end":
                                 return _ctx.stop();
                         }
@@ -124,39 +108,64 @@ var $f7af69084d67aeff$export$2e2bcd8739ae039 = /*#__PURE__*/ function(HTMLElemen
         {
             key: "connectedCallback",
             value: function connectedCallback() {
-                this.addEventListener('click', $k52p8$swchelpers.classPrivateMethodGet(this, _handleClick, handleClick).bind(this));
-                if (document.fullscreenEnabled || document.webkitFullscreenEnabled) {
-                    /** @type {HTMLTemplateElement} */ var template = this.querySelector("template[data-behavior=\"".concat($f7af69084d67aeff$export$2e2bcd8739ae039.behaviors.TEMPLATE, "\"]"));
-                    if (template) template.replaceWith(template.content.cloneNode(true));
-                }
-                this.attachShadow({
-                    mode: 'open'
-                }).innerHTML = "\n      <slot></slot>\n\n      <style>\n        :host {\n          display: block;\n        }\n      </style>\n    ";
+                var _this = this;
+                this.addEventListener($7aabbee43d77697a$export$2e2bcd8739ae039.eventName, function() {
+                    return _this.toggle();
+                });
             }
         }
     ]);
     return $f7af69084d67aeff$export$2e2bcd8739ae039;
 }($k52p8$swchelpers.wrapNativeSuper(HTMLElement));
 $k52p8$swchelpers.defineProperty($f7af69084d67aeff$export$2e2bcd8739ae039, "tagName", 'full-screen');
-$k52p8$swchelpers.defineProperty($f7af69084d67aeff$export$2e2bcd8739ae039, "behaviors", {
-    TOGGLE: 'full-screen-toggle',
-    TEMPLATE: 'full-screen-template'
+
+
+
+
+var /**
+   * @param {MouseEvent} event
+   */ _handleClick = /*#__PURE__*/ new WeakSet();
+var $27da1b11015cdc7c$export$2e2bcd8739ae039 = /*#__PURE__*/ function(HTMLElement) {
+    "use strict";
+    $k52p8$swchelpers.inherits($27da1b11015cdc7c$export$2e2bcd8739ae039, HTMLElement);
+    var _super = $k52p8$swchelpers.createSuper($27da1b11015cdc7c$export$2e2bcd8739ae039);
+    function $27da1b11015cdc7c$export$2e2bcd8739ae039() {
+        $k52p8$swchelpers.classCallCheck(this, $27da1b11015cdc7c$export$2e2bcd8739ae039);
+        var _this;
+        _this = _super.apply(this, arguments);
+        $k52p8$swchelpers.classPrivateMethodInit($k52p8$swchelpers.assertThisInitialized(_this), _handleClick);
+        return _this;
+    }
+    $k52p8$swchelpers.createClass($27da1b11015cdc7c$export$2e2bcd8739ae039, [
+        {
+            key: "connectedCallback",
+            value: function connectedCallback() {
+                this.addEventListener('click', $k52p8$swchelpers.classPrivateMethodGet(this, _handleClick, handleClick).bind(this));
+                if (document.fullscreenEnabled || document.webkitFullscreenEnabled) {
+                    /** @type {HTMLTemplateElement} */ var template = this.querySelector("template[data-behavior=\"".concat($27da1b11015cdc7c$export$2e2bcd8739ae039.behaviors.TEMPLATE, "\"]")) || this.querySelector('template');
+                    if (template) template.replaceWith(template.content.cloneNode(true));
+                }
+            }
+        }
+    ]);
+    return $27da1b11015cdc7c$export$2e2bcd8739ae039;
+}($k52p8$swchelpers.wrapNativeSuper(HTMLElement));
+$k52p8$swchelpers.defineProperty($27da1b11015cdc7c$export$2e2bcd8739ae039, "tagName", 'full-screen-toggle');
+$k52p8$swchelpers.defineProperty($27da1b11015cdc7c$export$2e2bcd8739ae039, "behaviors", {
+    BUTTON: 'full-screen-toggle-button',
+    TEMPLATE: 'full-screen-toggle-template'
 });
 function handleClick(event) {
-    var toggleEl = event.target.closest("[data-behavior=\"".concat($f7af69084d67aeff$export$2e2bcd8739ae039.behaviors.TOGGLE, "\"]"));
+    var toggleEl = event.target.closest("[data-behavior=\"".concat($27da1b11015cdc7c$export$2e2bcd8739ae039.behaviors.TOGGLE, "\"]")) || event.target.closest('button');
     if (toggleEl) {
         event.preventDefault();
-        this.toggle();
+        this.dispatchEvent(new $7aabbee43d77697a$export$2e2bcd8739ae039());
     }
-}
-function getTargetEl() {
-    var idTarget = this.target && this.getRootNode().getElementById(this.target);
-    return idTarget || this;
 }
 
 
 customElements.define($f7af69084d67aeff$export$2e2bcd8739ae039.tagName, $f7af69084d67aeff$export$2e2bcd8739ae039);
-var $6be4b30feeb09703$export$2e2bcd8739ae039 = $f7af69084d67aeff$export$2e2bcd8739ae039;
+customElements.define($27da1b11015cdc7c$export$2e2bcd8739ae039.tagName, $27da1b11015cdc7c$export$2e2bcd8739ae039);
 
 
 //# sourceMappingURL=common.js.map
