@@ -126,7 +126,7 @@ $k52p8$swchelpers.defineProperty($f7af69084d67aeff$export$2e2bcd8739ae039, "tagN
 
 var /**
    * @param {MouseEvent} event
-   */ _handleClick = /*#__PURE__*/ new WeakSet();
+   */ _handleClick = /*#__PURE__*/ new WeakSet(), _handleFullscreenChange = /*#__PURE__*/ new WeakSet();
 var $27da1b11015cdc7c$export$2e2bcd8739ae039 = /*#__PURE__*/ function(HTMLElement) {
     "use strict";
     $k52p8$swchelpers.inherits($27da1b11015cdc7c$export$2e2bcd8739ae039, HTMLElement);
@@ -136,6 +136,7 @@ var $27da1b11015cdc7c$export$2e2bcd8739ae039 = /*#__PURE__*/ function(HTMLElemen
         var _this;
         _this = _super.apply(this, arguments);
         $k52p8$swchelpers.classPrivateMethodInit($k52p8$swchelpers.assertThisInitialized(_this), _handleClick);
+        $k52p8$swchelpers.classPrivateMethodInit($k52p8$swchelpers.assertThisInitialized(_this), _handleFullscreenChange);
         return _this;
     }
     $k52p8$swchelpers.createClass($27da1b11015cdc7c$export$2e2bcd8739ae039, [
@@ -143,6 +144,7 @@ var $27da1b11015cdc7c$export$2e2bcd8739ae039 = /*#__PURE__*/ function(HTMLElemen
             key: "connectedCallback",
             value: function connectedCallback() {
                 this.addEventListener('click', $k52p8$swchelpers.classPrivateMethodGet(this, _handleClick, handleClick).bind(this));
+                document.addEventListener('fullscreenchange', $k52p8$swchelpers.classPrivateMethodGet(this, _handleFullscreenChange, handleFullscreenChange).bind(this));
                 if (document.fullscreenEnabled || document.webkitFullscreenEnabled) {
                     /** @type {HTMLTemplateElement} */ var template = this.querySelector("template[data-behavior=\"".concat($27da1b11015cdc7c$export$2e2bcd8739ae039.behaviors.TEMPLATE, "\"]")) || this.querySelector('template');
                     if (template) template.replaceWith(template.content.cloneNode(true));
@@ -163,6 +165,11 @@ function handleClick(event) {
         event.preventDefault();
         this.dispatchEvent(new $7aabbee43d77697a$export$2e2bcd8739ae039());
     }
+}
+function handleFullscreenChange() {
+    var isFullscreen = Boolean(document.fullscreenElement || document.webkitFullscreenElement);
+    if (isFullscreen) this.setAttribute('active', '');
+    else this.removeAttribute('active');
 }
 
 

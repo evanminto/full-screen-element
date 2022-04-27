@@ -50,10 +50,11 @@ $2SSWc$defineProperty($0d50885bd7cdc9b8$export$2e2bcd8739ae039, "tagName", 'full
 
 var /**
    * @param {MouseEvent} event
-   */ _handleClick = /*#__PURE__*/ new WeakSet();
+   */ _handleClick = /*#__PURE__*/ new WeakSet(), _handleFullscreenChange = /*#__PURE__*/ new WeakSet();
 class $72c97a76bd96a08c$export$2e2bcd8739ae039 extends HTMLElement {
     connectedCallback() {
         this.addEventListener('click', $2SSWc$classPrivateMethodGet(this, _handleClick, handleClick).bind(this));
+        document.addEventListener('fullscreenchange', $2SSWc$classPrivateMethodGet(this, _handleFullscreenChange, handleFullscreenChange).bind(this));
         if (document.fullscreenEnabled || document.webkitFullscreenEnabled) {
             /** @type {HTMLTemplateElement} */ const template = this.querySelector(`template[data-behavior="${$72c97a76bd96a08c$export$2e2bcd8739ae039.behaviors.TEMPLATE}"]`) || this.querySelector('template');
             if (template) template.replaceWith(template.content.cloneNode(true));
@@ -62,6 +63,7 @@ class $72c97a76bd96a08c$export$2e2bcd8739ae039 extends HTMLElement {
     constructor(...args){
         super(...args);
         $2SSWc$classPrivateMethodInit(this, _handleClick);
+        $2SSWc$classPrivateMethodInit(this, _handleFullscreenChange);
     }
 }
 $2SSWc$defineProperty($72c97a76bd96a08c$export$2e2bcd8739ae039, "tagName", 'full-screen-toggle');
@@ -75,6 +77,11 @@ function handleClick(event) {
         event.preventDefault();
         this.dispatchEvent(new $eeba32eb0d9f6ecd$export$2e2bcd8739ae039());
     }
+}
+function handleFullscreenChange() {
+    const isFullscreen = Boolean(document.fullscreenElement || document.webkitFullscreenElement);
+    if (isFullscreen) this.setAttribute('active', '');
+    else this.removeAttribute('active');
 }
 
 

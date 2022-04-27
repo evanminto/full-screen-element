@@ -34,6 +34,10 @@ export default class FullScreenToggleElement extends HTMLElement {
 
   connectedCallback() {
     this.addEventListener('click', this.#handleClick.bind(this));
+    document.addEventListener(
+      'fullscreenchange',
+      this.#handleFullscreenChange.bind(this)
+    );
 
     if (document.fullscreenEnabled || document.webkitFullscreenEnabled) {
       /** @type {HTMLTemplateElement} */
@@ -60,6 +64,18 @@ export default class FullScreenToggleElement extends HTMLElement {
     if (toggleEl) {
       event.preventDefault();
       this.dispatchEvent(new FullScreenToggleEvent());
+    }
+  }
+
+  #handleFullscreenChange() {
+    const isFullscreen = Boolean(
+      document.fullscreenElement || document.webkitFullscreenElement
+    );
+
+    if (isFullscreen) {
+      this.setAttribute('active', '');
+    } else {
+      this.removeAttribute('active');
     }
   }
 }
