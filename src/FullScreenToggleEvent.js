@@ -4,6 +4,7 @@ export default class FullScreenToggleEvent extends Event {
   constructor() {
     super(FullScreenToggleEvent.eventName, {
       bubbles: true,
+      composed: true,
     });
   }
 }

@@ -1,7 +1,8 @@
-import FullscreenElement from './FullscreenElement.js';
-import FullScreenToggleElement from './FullScreenToggleElement.js';
+import FullScreenElement from './FullscreenElement';
+import FullScreenToggleElement from './FullScreenToggleElement';
+import FullScreenToggleEvent from './FullScreenToggleEvent';
 
-customElements.define(FullscreenElement.tagName, FullscreenElement);
+customElements.define(FullScreenElement.tagName, FullScreenElement);
 customElements.define(FullScreenToggleElement.tagName, FullScreenToggleElement);
 
-export { FullscreenElement, FullScreenToggleElement };
+export { FullScreenElement, FullScreenToggleElement, FullScreenToggleEvent };

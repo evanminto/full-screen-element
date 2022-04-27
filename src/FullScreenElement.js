@@ -3,7 +3,8 @@ import requestFullscreen from './requestFullscreen';
 import exitFullscreen from './exitFullscreen';
 
 /**
- *
+ * Toggles fullscreen on itself in a cross-browser-compatible way when a
+ * descendant element dispatches the `full-screen-toggle` event.
  *
  * @example
  * ```html

@@ -1,6 +1,17 @@
 import FullScreenToggleEvent from './FullScreenToggleEvent';
 
 /**
+ * When the user clicks a button descendant of this element, it dispatches a
+ * `full-screen-toggle` event.
+ *
+ * If a template is provided, it will only instantiate it if the browser
+ * supports fullscreen.
+ *
+ * The button and template can be customized via the `data-behavior` attribute,
+ * with these values:
+ *
+ * - full-screen-toggle-button
+ * - full-screen-toggle-template
  *
  * @example
  * ```html
