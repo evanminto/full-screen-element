@@ -8,8 +8,9 @@ function $parcel$interopDefault(a) {
   return a && a.__esModule ? a.default : a;
 }
 
-$parcel$export(module.exports, "FullscreenElement", function () { return $f7af69084d67aeff$export$2e2bcd8739ae039; });
+$parcel$export(module.exports, "FullScreenElement", function () { return $f7af69084d67aeff$export$2e2bcd8739ae039; });
 $parcel$export(module.exports, "FullScreenToggleElement", function () { return $27da1b11015cdc7c$export$2e2bcd8739ae039; });
+$parcel$export(module.exports, "FullScreenToggleEvent", function () { return $7aabbee43d77697a$export$2e2bcd8739ae039; });
 
 
 
@@ -20,7 +21,8 @@ var $7aabbee43d77697a$export$2e2bcd8739ae039 = /*#__PURE__*/ function(Event) {
     function $7aabbee43d77697a$export$2e2bcd8739ae039() {
         $k52p8$swchelpers.classCallCheck(this, $7aabbee43d77697a$export$2e2bcd8739ae039);
         return _super.call(this, $7aabbee43d77697a$export$2e2bcd8739ae039.eventName, {
-            bubbles: true
+            bubbles: true,
+            composed: true
         });
     }
     return $7aabbee43d77697a$export$2e2bcd8739ae039;
@@ -162,6 +164,7 @@ function handleClick(event) {
         this.dispatchEvent(new $7aabbee43d77697a$export$2e2bcd8739ae039());
     }
 }
+
 
 
 customElements.define($f7af69084d67aeff$export$2e2bcd8739ae039.tagName, $f7af69084d67aeff$export$2e2bcd8739ae039);

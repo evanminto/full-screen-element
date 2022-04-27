@@ -5,7 +5,8 @@ import {defineProperty as $2SSWc$defineProperty, classPrivateMethodGet as $2SSWc
 class $eeba32eb0d9f6ecd$export$2e2bcd8739ae039 extends Event {
     constructor(){
         super($eeba32eb0d9f6ecd$export$2e2bcd8739ae039.eventName, {
-            bubbles: true
+            bubbles: true,
+            composed: true
         });
     }
 }
@@ -77,9 +78,10 @@ function handleClick(event) {
 }
 
 
+
 customElements.define($0d50885bd7cdc9b8$export$2e2bcd8739ae039.tagName, $0d50885bd7cdc9b8$export$2e2bcd8739ae039);
 customElements.define($72c97a76bd96a08c$export$2e2bcd8739ae039.tagName, $72c97a76bd96a08c$export$2e2bcd8739ae039);
 
 
-export {$0d50885bd7cdc9b8$export$2e2bcd8739ae039 as FullscreenElement, $72c97a76bd96a08c$export$2e2bcd8739ae039 as FullScreenToggleElement};
+export {$0d50885bd7cdc9b8$export$2e2bcd8739ae039 as FullScreenElement, $72c97a76bd96a08c$export$2e2bcd8739ae039 as FullScreenToggleElement, $eeba32eb0d9f6ecd$export$2e2bcd8739ae039 as FullScreenToggleEvent};
 //# sourceMappingURL=module.js.map
