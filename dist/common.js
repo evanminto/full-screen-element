@@ -71,6 +71,20 @@ function $05b9d84a38756c60$export$2e2bcd8739ae039() {
 }
 
 
+var $86357066f1bb778f$export$2e2bcd8739ae039 = {
+    get enabled () {
+        return document.fullscreenEnabled || document.webkitFullscreenEnabled;
+    },
+    /**
+   * @returns {Element}
+   */ get element () {
+        return document.fullscreenElement || document.webkitFullscreenElement;
+    },
+    requestFullscreen: $77c7e3cc05fe8a7b$export$2e2bcd8739ae039,
+    exitFullscreen: $05b9d84a38756c60$export$2e2bcd8739ae039
+};
+
+
 var $f7af69084d67aeff$export$2e2bcd8739ae039 = /*#__PURE__*/ function(HTMLElement) {
     "use strict";
     $k52p8$swchelpers.inherits($f7af69084d67aeff$export$2e2bcd8739ae039, HTMLElement);
@@ -89,17 +103,19 @@ var $f7af69084d67aeff$export$2e2bcd8739ae039 = /*#__PURE__*/ function(HTMLElemen
    */ function toggle() {
                 var _this = this;
                 return $k52p8$swchelpers.asyncToGenerator(($parcel$interopDefault($k52p8$regeneratorruntime)).mark(function _callee() {
+                    var element, exitFullscreen, requestFullscreen;
                     return ($parcel$interopDefault($k52p8$regeneratorruntime)).wrap(function _callee$(_ctx) {
                         while(1)switch(_ctx.prev = _ctx.next){
                             case 0:
-                                if (!(document.fullscreenElement === _this || document.webkitFullscreenElement === _this)) {
-                                    _ctx.next = 2;
+                                element = $86357066f1bb778f$export$2e2bcd8739ae039.element, exitFullscreen = $86357066f1bb778f$export$2e2bcd8739ae039.exitFullscreen, requestFullscreen = $86357066f1bb778f$export$2e2bcd8739ae039.requestFullscreen;
+                                if (!(element === _this)) {
+                                    _ctx.next = 3;
                                     break;
                                 }
-                                return _ctx.abrupt("return", $05b9d84a38756c60$export$2e2bcd8739ae039());
-                            case 2:
-                                return _ctx.abrupt("return", $77c7e3cc05fe8a7b$export$2e2bcd8739ae039(_this));
+                                return _ctx.abrupt("return", exitFullscreen());
                             case 3:
+                                return _ctx.abrupt("return", requestFullscreen(_this));
+                            case 4:
                             case "end":
                                 return _ctx.stop();
                         }
@@ -124,7 +140,8 @@ $k52p8$swchelpers.defineProperty($f7af69084d67aeff$export$2e2bcd8739ae039, "tagN
 
 
 
-var /**
+
+var _addEventListeners = /*#__PURE__*/ new WeakSet(), _cloneTemplate = /*#__PURE__*/ new WeakSet(), /**
    * @param {MouseEvent} event
    */ _handleClick = /*#__PURE__*/ new WeakSet(), _handleFullscreenChange = /*#__PURE__*/ new WeakSet();
 var $27da1b11015cdc7c$export$2e2bcd8739ae039 = /*#__PURE__*/ function(HTMLElement) {
@@ -135,6 +152,8 @@ var $27da1b11015cdc7c$export$2e2bcd8739ae039 = /*#__PURE__*/ function(HTMLElemen
         $k52p8$swchelpers.classCallCheck(this, $27da1b11015cdc7c$export$2e2bcd8739ae039);
         var _this;
         _this = _super.apply(this, arguments);
+        $k52p8$swchelpers.classPrivateMethodInit($k52p8$swchelpers.assertThisInitialized(_this), _addEventListeners);
+        $k52p8$swchelpers.classPrivateMethodInit($k52p8$swchelpers.assertThisInitialized(_this), _cloneTemplate);
         $k52p8$swchelpers.classPrivateMethodInit($k52p8$swchelpers.assertThisInitialized(_this), _handleClick);
         $k52p8$swchelpers.classPrivateMethodInit($k52p8$swchelpers.assertThisInitialized(_this), _handleFullscreenChange);
         return _this;
@@ -143,31 +162,52 @@ var $27da1b11015cdc7c$export$2e2bcd8739ae039 = /*#__PURE__*/ function(HTMLElemen
         {
             key: "connectedCallback",
             value: function connectedCallback() {
-                this.addEventListener('click', $k52p8$swchelpers.classPrivateMethodGet(this, _handleClick, handleClick).bind(this));
-                document.addEventListener('fullscreenchange', $k52p8$swchelpers.classPrivateMethodGet(this, _handleFullscreenChange, handleFullscreenChange).bind(this));
-                if (document.fullscreenEnabled || document.webkitFullscreenEnabled) {
-                    /** @type {HTMLTemplateElement} */ var template = this.querySelector("template[data-behavior=\"".concat($27da1b11015cdc7c$export$2e2bcd8739ae039.behaviors.TEMPLATE, "\"]")) || this.querySelector('template');
-                    if (template) template.replaceWith(template.content.cloneNode(true));
-                }
+                $k52p8$swchelpers.classPrivateMethodGet(this, _addEventListeners, addEventListeners).call(this);
+                if ($86357066f1bb778f$export$2e2bcd8739ae039.enabled) $k52p8$swchelpers.classPrivateMethodGet(this, _cloneTemplate, cloneTemplate).call(this);
             }
         }
     ]);
     return $27da1b11015cdc7c$export$2e2bcd8739ae039;
 }($k52p8$swchelpers.wrapNativeSuper(HTMLElement));
-$k52p8$swchelpers.defineProperty($27da1b11015cdc7c$export$2e2bcd8739ae039, "tagName", 'full-screen-toggle');
-$k52p8$swchelpers.defineProperty($27da1b11015cdc7c$export$2e2bcd8739ae039, "behaviors", {
-    BUTTON: 'full-screen-toggle-button',
-    TEMPLATE: 'full-screen-toggle-template'
+/**
+   * @readonly
+   */ $k52p8$swchelpers.defineProperty($27da1b11015cdc7c$export$2e2bcd8739ae039, "tagName", 'full-screen-toggle');
+/**
+   * @readonly
+   */ $k52p8$swchelpers.defineProperty($27da1b11015cdc7c$export$2e2bcd8739ae039, "behaviors", {
+    TEMPLATE: 'data-full-screen-toggle-template',
+    TRIGGER: 'data-full-screen-toggle-trigger'
 });
+function addEventListeners() {
+    this.addEventListener('click', $k52p8$swchelpers.classPrivateMethodGet(this, _handleClick, handleClick).bind(this));
+    var _$handleFullscreenChange = $k52p8$swchelpers.classPrivateMethodGet(this, _handleFullscreenChange, handleFullscreenChange).bind(this);
+    document.addEventListener('fullscreenchange', _$handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', _$handleFullscreenChange);
+}
+function cloneTemplate() {
+    var _this = this;
+    var fallbackToQS = function(value, selector) {
+        return value || _this.querySelector(selector);
+    };
+    var selectors = [
+        "template[".concat($27da1b11015cdc7c$export$2e2bcd8739ae039.behaviors.TEMPLATE, "]"),
+        'template', 
+    ];
+    /** @type {HTMLTemplateElement} */ var template = selectors.reduce(fallbackToQS, null);
+    if (!template) return;
+    template.replaceWith(template.content.cloneNode(true));
+}
 function handleClick(event) {
-    var toggleEl = event.target.closest("[data-behavior=\"".concat($27da1b11015cdc7c$export$2e2bcd8739ae039.behaviors.TOGGLE, "\"]")) || event.target.closest('button');
+    var customSelector = "[".concat($27da1b11015cdc7c$export$2e2bcd8739ae039.behaviors.TRIGGER, "]");
+    var hasCustomTrigger = Boolean(this.querySelector(customSelector));
+    var toggleEl = event.target.closest(hasCustomTrigger ? customSelector : 'button');
     if (toggleEl) {
         event.preventDefault();
         this.dispatchEvent(new $7aabbee43d77697a$export$2e2bcd8739ae039());
     }
 }
 function handleFullscreenChange() {
-    var isFullscreen = Boolean(document.fullscreenElement || document.webkitFullscreenElement);
+    var isFullscreen = Boolean($86357066f1bb778f$export$2e2bcd8739ae039.element);
     if (isFullscreen) this.setAttribute('active', '');
     else this.removeAttribute('active');
 }

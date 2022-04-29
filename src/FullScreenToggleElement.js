@@ -1,4 +1,5 @@
 import FullScreenToggleEvent from './FullScreenToggleEvent';
+import fullscreenAPI from './fullscreenAPI';
 
 /**
  * When the user clicks a button descendant of this element, it dispatches a
@@ -7,11 +8,10 @@ import FullScreenToggleEvent from './FullScreenToggleEvent';
  * If a template is provided, it will only instantiate it if the browser
  * supports fullscreen.
  *
- * The button and template can be customized via the `data-behavior` attribute,
- * with these values:
- *
- * - full-screen-toggle-button
- * - full-screen-toggle-template
+ * To select a different template or trigger element, add the following data
+ * attributes:
+ *  - data-full-screen-toggle-template
+ *  - data-full-screen-toggle-trigger
  *
  * @example
  * ```html
@@ -25,41 +25,64 @@ import FullScreenToggleEvent from './FullScreenToggleEvent';
  * @customElement full-screen-toggle
  */
 export default class FullScreenToggleElement extends HTMLElement {
+  /**
+   * @readonly
+   */
   static tagName = 'full-screen-toggle';
 
+  /**
+   * @readonly
+   */
   static behaviors = {
-    BUTTON: 'full-screen-toggle-button',
-    TEMPLATE: 'full-screen-toggle-template',
+    TEMPLATE: 'data-full-screen-toggle-template',
+    TRIGGER: 'data-full-screen-toggle-trigger',
   };
 
   connectedCallback() {
-    this.addEventListener('click', this.#handleClick.bind(this));
-    document.addEventListener(
-      'fullscreenchange',
-      this.#handleFullscreenChange.bind(this)
-    );
+    this.#addEventListeners();
 
-    if (document.fullscreenEnabled || document.webkitFullscreenEnabled) {
-      /** @type {HTMLTemplateElement} */
-      const template =
-        this.querySelector(
-          `template[data-behavior="${FullScreenToggleElement.behaviors.TEMPLATE}"]`
-        ) || this.querySelector('template');
-
-      if (template) {
-        template.replaceWith(template.content.cloneNode(true));
-      }
+    if (fullscreenAPI.enabled) {
+      this.#cloneTemplate();
     }
+  }
+
+  #addEventListeners() {
+    this.addEventListener('click', this.#handleClick.bind(this));
+
+    const handleFullscreenChange = this.#handleFullscreenChange.bind(this);
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+  }
+
+  #cloneTemplate() {
+    const fallbackToQS = (value, selector) =>
+      value || this.querySelector(selector);
+
+    const selectors = [
+      `template[${FullScreenToggleElement.behaviors.TEMPLATE}]`,
+      'template',
+    ];
+
+    /** @type {HTMLTemplateElement} */
+    const template = selectors.reduce(fallbackToQS, null);
+
+    if (!template) {
+      return;
+    }
+
+    template.replaceWith(template.content.cloneNode(true));
   }
 
   /**
    * @param {MouseEvent} event
    */
   #handleClick(event) {
-    const toggleEl =
-      event.target.closest(
-        `[data-behavior="${FullScreenToggleElement.behaviors.TOGGLE}"]`
-      ) || event.target.closest('button');
+    const customSelector = `[${FullScreenToggleElement.behaviors.TRIGGER}]`;
+    const hasCustomTrigger = Boolean(this.querySelector(customSelector));
+
+    const toggleEl = event.target.closest(
+      hasCustomTrigger ? customSelector : 'button'
+    );
 
     if (toggleEl) {
       event.preventDefault();
@@ -68,9 +91,7 @@ export default class FullScreenToggleElement extends HTMLElement {
   }
 
   #handleFullscreenChange() {
-    const isFullscreen = Boolean(
-      document.fullscreenElement || document.webkitFullscreenElement
-    );
+    const isFullscreen = Boolean(fullscreenAPI.element);
 
     if (isFullscreen) {
       this.setAttribute('active', '');

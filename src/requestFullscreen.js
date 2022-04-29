@@ -1,5 +1,5 @@
 /**
- * @param {HTMLElement} el
+ * @param {Element} el
  * @returns {Promise<void>}
  */
 export default async function requestFullscreen(el) {

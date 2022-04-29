@@ -1,6 +1,5 @@
 import FullScreenToggleEvent from './FullScreenToggleEvent';
-import requestFullscreen from './requestFullscreen';
-import exitFullscreen from './exitFullscreen';
+import fullscreenAPI from './fullscreenAPI';
 
 /**
  * Toggles fullscreen on itself in a cross-browser-compatible way when a
@@ -20,7 +19,6 @@ import exitFullscreen from './exitFullscreen';
  * ```
  *
  * @customElement full-screen
- * @attr {String} target - ID of the HTML element to make fullscreen (optional)
  */
 export default class FullScreenElement extends HTMLElement {
   static tagName = 'full-screen';
@@ -31,10 +29,9 @@ export default class FullScreenElement extends HTMLElement {
    * NOTE: This will fail unless called in the context of a user action
    */
   async toggle() {
-    if (
-      document.fullscreenElement === this ||
-      document.webkitFullscreenElement === this
-    ) {
+    const { element, exitFullscreen, requestFullscreen } = fullscreenAPI;
+
+    if (element === this) {
       return exitFullscreen();
     }
 

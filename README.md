@@ -62,25 +62,57 @@ Hide button when fullscreen isn't supported:
 </full-screen>
 ```
 
-## `<full-screen-toggle>` Behaviors
+## Customizing Behavior
 
-Use the `data-behavior` attribute to select which elements should get custom
-behaviors associated with them, or omit it to let the element select sensible
-defaults.
+### Template
 
-### Values
-* **full-screen-toggle-template:** If fullscreen is supported in the current browser
-and `<full-screen-toggle>` is defined, the
-`<template data-behavior="full-screen-toggle-template">` will be cloned and replaced
-with its clone. Why would you use this? It’s a good practice to only show UI
-that’s actually functional, so putting the button inside a `<template>` ensures
-that only users who can use fullscreen mode see the button. By default the
-element will use its first `<template>` descendant.
-* **full-screen-toggle-button:** When clicked, this element will trigger the
-`full-screen-toggle` event on the `<full-screen-toggle>` element. The default
-click will also be suppressed. Links with `data-behavior="full-screen-toggle"`
-won’t navigate and submit buttons won’t submit their forms. By default the
-element will use its first `<button>` descendant.
+By default, `<full-screen-toggle>` automatically checks if fullscreen is
+supported in the browser, and if it _is_ supported, the element clones the
+contents of its first `<template>` descendant and replaces the template with
+the clone.
+
+For example, if we start with:
+
+```html
+<full-screen-toggle>
+  <template>
+    <button type="button">Toggle Fullscreen</button>
+  </template>
+</full-screen-toggle>
+```
+
+It will end up looking like this in supporting browsers:
+
+```html
+<full-screen-toggle>
+  <button type="button">Toggle Fullscreen</button>
+</full-screen-toggle>
+```
+
+To use a different template, add the `data-full-screen-toggle-template` to the
+template, like so:
+
+```html
+<template data-full-screen-toggle-template>
+  ...
+</template>
+```
+
+### Trigger
+
+By default, the element will toggle fullscreen when any `<button>` descendant
+is clicked.
+
+To use a different button (or a different type of element) as the trigger, add
+the `data-full-screen-toggle-trigger` attribute, like so:
+
+```html
+<div role="button" data-full-screen-toggle-trigger>Fullscreen</div>
+```
+
+**CAUTION:** Using an element other than `<button>` can introduce semantic
+and accessibility issues. In almost all cases you should use `<button>` for
+triggering fullscreen.
 
 ## Methods on `<full-screen>`
 
