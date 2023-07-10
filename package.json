@@ -1,6 +1,6 @@
 {
   "name": "@evanminto/full-screen-element",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "",
   "source": "src/index.js",
   "browser": "dist/common.js",
