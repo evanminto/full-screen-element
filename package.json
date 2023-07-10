@@ -10,6 +10,10 @@
       "context": "browser",
       "outputFormat": "global",
       "distDir": "dist/"
+    },
+    "baseStyles": {
+      "source": "./src/base.css",
+      "distDir": "dist/"
     }
   },
   "browserslist": "> 0.5%, last 2 versions, not dead",

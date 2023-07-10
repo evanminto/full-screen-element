@@ -5,15 +5,15 @@ import fullscreenAPI from './fullscreenAPI';
  * When the user clicks a button descendant of this element, it dispatches a
  * `full-screen-toggle` event.
  *
- * If a template is provided, it will only instantiate it if the browser
- * supports fullscreen.
+ * By default, the first `<button>` descendant is treated as a toggle button,
+ * but buttons can be assigned behaviors using the `data-behavior` attribute,
+ * set to the following values:
  *
- * To select a different template or trigger element, add the following data
- * attributes:
- *  - data-full-screen-toggle-template
- *  - data-full-screen-toggle-trigger
+ * - `toggle`
+ * - `enter`
+ * - `exit`
  *
- * @example
+ * ### Basic Example:
  * ```html
  *  <full-screen-toggle>
  *    <button type="button">
@@ -22,7 +22,18 @@ import fullscreenAPI from './fullscreenAPI';
  *  </full-screen-toggle>
  * ```
  *
+ * ### Advanced Example:
+ * ```html
+ *   <full-screen-toggle>
+ *     <button type="button" data-behavior="enter">Enter</button>
+ *     <button type="button" data-behavior="exit">Exit</button>
+ *   </full-screen-toggle>
+ * ```
+ *
  * @customElement full-screen-toggle
+ * @attr active
+ * @attr supported
+ * @part toggle
  */
 export default class FullScreenToggleElement extends HTMLElement {
   /**
@@ -34,62 +45,90 @@ export default class FullScreenToggleElement extends HTMLElement {
    * @readonly
    */
   static behaviors = {
-    TEMPLATE: 'data-full-screen-toggle-template',
-    TRIGGER: 'data-full-screen-toggle-trigger',
+    TOGGLE: 'toggle',
+    ENTER: 'enter',
+    EXIT: 'exit',
   };
 
   connectedCallback() {
-    this.#addEventListeners();
-
     if (fullscreenAPI.enabled) {
-      this.#cloneTemplate();
+      this.setAttribute('supported', '');
     }
-  }
 
-  #addEventListeners() {
-    this.addEventListener('click', this.#handleClick.bind(this));
+    this.attachShadow({ mode: 'open' });
+
+    if (this.shadowRoot) {
+      this.shadowRoot.innerHTML = `
+        <slot><button type="button" part="toggle">Toggle Fullscreen</button></slot>
+      `;
+
+      this.shadowRoot
+        .querySelector('slot')
+        ?.addEventListener('click', this.#handleClick.bind(this));
+    }
 
     const handleFullscreenChange = this.#handleFullscreenChange.bind(this);
     document.addEventListener('fullscreenchange', handleFullscreenChange);
     document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
   }
 
-  #cloneTemplate() {
-    const fallbackToQS = (value, selector) =>
-      value || this.querySelector(selector);
+  /**
+   * @returns {boolean}
+   */
+  get active() {
+    return this.hasAttribute('active');
+  }
 
-    const selectors = [
-      `template[${FullScreenToggleElement.behaviors.TEMPLATE}]`,
-      'template',
-    ];
-
-    /** @type {HTMLTemplateElement} */
-    const template = selectors.reduce(fallbackToQS, null);
-
-    if (!template) {
-      return;
-    }
-
-    template.replaceWith(template.content.cloneNode(true));
+  /**
+   * @returns {boolean}
+   */
+  get supported() {
+    return this.hasAttribute('supported');
   }
 
   /**
    * @param {MouseEvent} event
    */
   #handleClick(event) {
-    const customSelector = `[${FullScreenToggleElement.behaviors.TRIGGER}]`;
-    const hasCustomTrigger = Boolean(this.querySelector(customSelector));
+    const { TOGGLE, ENTER, EXIT } = FullScreenToggleElement.behaviors;
 
-    const toggleEl = event.target.closest(
-      hasCustomTrigger ? customSelector : 'button'
-    );
+    if (this.#elementHasBehavior(event.target)) {
+      const { behavior = TOGGLE } = event.target.dataset;
 
-    if (toggleEl) {
+      if (
+        (this.active && behavior === ENTER) ||
+        (!this.active && behavior === EXIT)
+      ) {
+        return;
+      }
+
       event.preventDefault();
       this.dispatchEvent(new FullScreenToggleEvent());
     }
   }
 
+  /**
+   * @param {Element} el
+   * @returns {boolean}
+   */
+  #elementHasBehavior(el) {
+    const { TOGGLE, ENTER, EXIT } = FullScreenToggleElement.behaviors;
+    const behaviorSelector = `[data-behavior="${TOGGLE}"], [data-behavior="${ENTER}"], [data-behavior="${EXIT}"]`;
+    const behaviorsArePresent = this.querySelector(behaviorSelector);
+
+    if (behaviorsArePresent) {
+      return Boolean(el?.closest(behaviorSelector));
+    }
+
+    return (
+      el === this.querySelector('button') ||
+      el === this.shadowRoot?.querySelector('button')
+    );
+  }
+
+  /**
+   * @returns {void}
+   */
   #handleFullscreenChange() {
     const isFullscreen = Boolean(fullscreenAPI.element);
 

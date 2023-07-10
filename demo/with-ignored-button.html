@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script src="../dist/index.js" type="module"></script>
+    <link rel="stylesheet" href="../dist/base.css">
 
     <style>
       full-screen:fullscreen {
@@ -21,13 +22,8 @@
       <p>This content will be shown in full screen</p>
 
       <full-screen-toggle>
-        <template>
-          <button type="button">
-            Toggle fullscreen
-          </button>
-
-          <p>(This button and text will only appear if fullscreen is supported)</p>
-        </template>
+        <button type="button">Does Nothing</button>
+        <button type="button" data-behavior="toggle">Toggle Fullscreen</button>
       </full-screen-toggle>
     </full-screen>
   </body>

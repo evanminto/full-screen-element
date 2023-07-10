@@ -141,9 +141,14 @@ $k52p8$swchelpers.defineProperty($f7af69084d67aeff$export$2e2bcd8739ae039, "tagN
 
 
 
-var _addEventListeners = /*#__PURE__*/ new WeakSet(), _cloneTemplate = /*#__PURE__*/ new WeakSet(), /**
+var /**
    * @param {MouseEvent} event
-   */ _handleClick = /*#__PURE__*/ new WeakSet(), _handleFullscreenChange = /*#__PURE__*/ new WeakSet();
+   */ _handleClick = /*#__PURE__*/ new WeakSet(), /**
+   * @param {Element} el
+   * @returns {boolean}
+   */ _elementHasBehavior = /*#__PURE__*/ new WeakSet(), /**
+   * @returns {void}
+   */ _handleFullscreenChange = /*#__PURE__*/ new WeakSet();
 var $27da1b11015cdc7c$export$2e2bcd8739ae039 = /*#__PURE__*/ function(HTMLElement) {
     "use strict";
     $k52p8$swchelpers.inherits($27da1b11015cdc7c$export$2e2bcd8739ae039, HTMLElement);
@@ -152,9 +157,8 @@ var $27da1b11015cdc7c$export$2e2bcd8739ae039 = /*#__PURE__*/ function(HTMLElemen
         $k52p8$swchelpers.classCallCheck(this, $27da1b11015cdc7c$export$2e2bcd8739ae039);
         var _this;
         _this = _super.apply(this, arguments);
-        $k52p8$swchelpers.classPrivateMethodInit($k52p8$swchelpers.assertThisInitialized(_this), _addEventListeners);
-        $k52p8$swchelpers.classPrivateMethodInit($k52p8$swchelpers.assertThisInitialized(_this), _cloneTemplate);
         $k52p8$swchelpers.classPrivateMethodInit($k52p8$swchelpers.assertThisInitialized(_this), _handleClick);
+        $k52p8$swchelpers.classPrivateMethodInit($k52p8$swchelpers.assertThisInitialized(_this), _elementHasBehavior);
         $k52p8$swchelpers.classPrivateMethodInit($k52p8$swchelpers.assertThisInitialized(_this), _handleFullscreenChange);
         return _this;
     }
@@ -162,8 +166,34 @@ var $27da1b11015cdc7c$export$2e2bcd8739ae039 = /*#__PURE__*/ function(HTMLElemen
         {
             key: "connectedCallback",
             value: function connectedCallback() {
-                $k52p8$swchelpers.classPrivateMethodGet(this, _addEventListeners, addEventListeners).call(this);
-                if ($86357066f1bb778f$export$2e2bcd8739ae039.enabled) $k52p8$swchelpers.classPrivateMethodGet(this, _cloneTemplate, cloneTemplate).call(this);
+                if ($86357066f1bb778f$export$2e2bcd8739ae039.enabled) this.setAttribute('supported', '');
+                this.attachShadow({
+                    mode: 'open'
+                });
+                if (this.shadowRoot) {
+                    var ref;
+                    this.shadowRoot.innerHTML = "\n        <slot><button type=\"button\">Toggle Fullscreen</button></slot>\n      ";
+                    (ref = this.shadowRoot.querySelector('slot')) === null || ref === void 0 ? void 0 : ref.addEventListener('click', $k52p8$swchelpers.classPrivateMethodGet(this, _handleClick, handleClick).bind(this));
+                }
+                var _$handleFullscreenChange = $k52p8$swchelpers.classPrivateMethodGet(this, _handleFullscreenChange, handleFullscreenChange).bind(this);
+                document.addEventListener('fullscreenchange', _$handleFullscreenChange);
+                document.addEventListener('webkitfullscreenchange', _$handleFullscreenChange);
+            }
+        },
+        {
+            key: "active",
+            get: /**
+   * @returns {boolean}
+   */ function get() {
+                return this.hasAttribute('active');
+            }
+        },
+        {
+            key: "supported",
+            get: /**
+   * @returns {boolean}
+   */ function get() {
+                return this.hasAttribute('supported');
             }
         }
     ]);
@@ -175,36 +205,26 @@ var $27da1b11015cdc7c$export$2e2bcd8739ae039 = /*#__PURE__*/ function(HTMLElemen
 /**
    * @readonly
    */ $k52p8$swchelpers.defineProperty($27da1b11015cdc7c$export$2e2bcd8739ae039, "behaviors", {
-    TEMPLATE: 'data-full-screen-toggle-template',
-    TRIGGER: 'data-full-screen-toggle-trigger'
+    TOGGLE: 'toggle',
+    ENTER: 'enter',
+    EXIT: 'exit'
 });
-function addEventListeners() {
-    this.addEventListener('click', $k52p8$swchelpers.classPrivateMethodGet(this, _handleClick, handleClick).bind(this));
-    var _$handleFullscreenChange = $k52p8$swchelpers.classPrivateMethodGet(this, _handleFullscreenChange, handleFullscreenChange).bind(this);
-    document.addEventListener('fullscreenchange', _$handleFullscreenChange);
-    document.addEventListener('webkitfullscreenchange', _$handleFullscreenChange);
-}
-function cloneTemplate() {
-    var _this = this;
-    var fallbackToQS = function(value, selector) {
-        return value || _this.querySelector(selector);
-    };
-    var selectors = [
-        "template[".concat($27da1b11015cdc7c$export$2e2bcd8739ae039.behaviors.TEMPLATE, "]"),
-        'template', 
-    ];
-    /** @type {HTMLTemplateElement} */ var template = selectors.reduce(fallbackToQS, null);
-    if (!template) return;
-    template.replaceWith(template.content.cloneNode(true));
-}
 function handleClick(event) {
-    var customSelector = "[".concat($27da1b11015cdc7c$export$2e2bcd8739ae039.behaviors.TRIGGER, "]");
-    var hasCustomTrigger = Boolean(this.querySelector(customSelector));
-    var toggleEl = event.target.closest(hasCustomTrigger ? customSelector : 'button');
-    if (toggleEl) {
+    var _behaviors = $27da1b11015cdc7c$export$2e2bcd8739ae039.behaviors, TOGGLE = _behaviors.TOGGLE, ENTER = _behaviors.ENTER, EXIT = _behaviors.EXIT;
+    if ($k52p8$swchelpers.classPrivateMethodGet(this, _elementHasBehavior, elementHasBehavior).call(this, event.target)) {
+        var _dataset = event.target.dataset, _behavior = _dataset.behavior, behavior = _behavior === void 0 ? TOGGLE : _behavior;
+        if (this.active && behavior === ENTER || !this.active && behavior === EXIT) return;
         event.preventDefault();
         this.dispatchEvent(new $7aabbee43d77697a$export$2e2bcd8739ae039());
     }
+}
+function elementHasBehavior(el) {
+    var ref;
+    var _behaviors = $27da1b11015cdc7c$export$2e2bcd8739ae039.behaviors, TOGGLE = _behaviors.TOGGLE, ENTER = _behaviors.ENTER, EXIT = _behaviors.EXIT;
+    var behaviorSelector = "[data-behavior=\"".concat(TOGGLE, "\"], [data-behavior=\"").concat(ENTER, "\"], [data-behavior=\"").concat(EXIT, "\"]");
+    var behaviorsArePresent = this.querySelector(behaviorSelector);
+    if (behaviorsArePresent) return Boolean(el === null || el === void 0 ? void 0 : el.closest(behaviorSelector));
+    return el === this.querySelector('button') || el === ((ref = this.shadowRoot) === null || ref === void 0 ? void 0 : ref.querySelector('button'));
 }
 function handleFullscreenChange() {
     var isFullscreen = Boolean($86357066f1bb778f$export$2e2bcd8739ae039.element);

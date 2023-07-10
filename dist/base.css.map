@@ -1,0 +1,1 @@
+{"mappings":"ACAA","sources":["base.css","src/base.css"],"sourcesContent":["full-screen-toggle:not(:defined), full-screen-toggle:not([supported]) {\n  display: none;\n}\n\n/*# sourceMappingURL=base.css.map */\n","full-screen-toggle:not(:defined),\nfull-screen-toggle:not([supported]) {\n  display: none;\n}\n"],"names":[],"version":3,"file":"base.css.map"}

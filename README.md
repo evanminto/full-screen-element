@@ -37,81 +37,82 @@ Simple default usage:
 ```html
 <full-screen>
   <p>Fullscreenable content</p>
-
-  <full-screen-toggle>
-    <button type="button">
-      Toggle Fullscreen
-    </button>
-  </full-screen-toggle>
+  <full-screen-toggle></full-screen-toggle>
 </full-screen>
 ```
 
-Hide button when fullscreen isn't supported:
+## Customizing HTML & CSS
+
+By default the toggle button is rendered inside `<full-screen-toggle>`'s Shadow DOM.
+You can style the button via the element’s CSS parts:
 
 ```html
-<full-screen>
-  <p>Fullscreenable content</p>
+<full-screen-toggle></full-screen-toggle>
 
-  <full-screen-toggle>
-    <template>
-      <button type="button">
-        Toggle Fullscreen
-      </button>
-    </template>
-  </full-screen-toggle>
-</full-screen>
+<style>
+  full-screen-toggle::part(toggle) {
+    background-color: white;
+    color: red;
+  }
+
+  full-screen-toggle[active]::part(toggle) {
+    background-color: red;
+    color: white;
+  }
+</style>
 ```
 
-## Customizing Behavior
-
-### Template
-
-By default, `<full-screen-toggle>` automatically checks if fullscreen is
-supported in the browser, and if it _is_ supported, the element clones the
-contents of its first `<template>` descendant and replaces the template with
-the clone.
-
-For example, if we start with:
-
-```html
-<full-screen-toggle>
-  <template>
-    <button type="button">Toggle Fullscreen</button>
-  </template>
-</full-screen-toggle>
-```
-
-It will end up looking like this in supporting browsers:
+Or if you need more control you can provide a button in the Light DOM, which
+overrides this behavior and allows you to use your own markup and styles:
 
 ```html
 <full-screen-toggle>
   <button type="button">Toggle Fullscreen</button>
 </full-screen-toggle>
+
+<style>
+  full-screen-toggle button {
+    background-color: white;
+    color: red;
+  }
+
+  full-screen-toggle[active] button {
+    background-color: red;
+    color: white;
+  }
+</style>
 ```
 
-To use a different template, add the `data-full-screen-toggle-template` to the
-template, like so:
+## Customizing Behavior
+
+### Behavior Attribute
+
+By default the first `<button>` child of `<full-screen-toggle>` will be treated
+as a toggle button, so clicking it will turn fullscreen on and off.
+
+To select a different button, attach the `data-behavior="toggle"` attribute:
 
 ```html
-<template data-full-screen-toggle-template>
-  ...
-</template>
+<full-screen-toggle>
+  <button type="button">Does nothing</button>
+  <button type="button" data-behavior="toggle">Toggle Fullscreen</button>
+</full-screen-toggle>
 ```
 
-### Trigger
-
-By default, the element will toggle fullscreen when any `<button>` descendant
-is clicked.
-
-To use a different button (or a different type of element) as the trigger, add
-the `data-full-screen-toggle-trigger` attribute, like so:
+If instead of a single toggle you’d like two separate buttons, one for entering
+and one for exiting fullscreen, you can assign the `data-behavior="enter"` and
+`data-behavior="exit"` attributes:
 
 ```html
-<div role="button" data-full-screen-toggle-trigger>Fullscreen</div>
+<full-screen-toggle>
+  <button type="button" data-behavior="enter">Enter Fullscreen</button>
+  <button type="button" data-behavior="exit">Exit Fullscreen</button>
+</full-screen-toggle>
 ```
 
-**CAUTION:** Using an element other than `<button>` can introduce semantic
-and accessibility issues. In almost all cases you should use `<button>` for
+**CAUTION:** While you can assign the `data-behavior` attribute to any element
+you want, using an element other than `<button>` can introduce semantic and
+accessibility issues. In almost all cases you should use `<button>` for
 triggering fullscreen.
 
 ## Methods on `<full-screen>`
@@ -121,6 +122,26 @@ triggering fullscreen.
 Toggles fullscreen on or off for the target element.
 
 **NOTE:** This will fail unless called in the context of a user action
+
+## Attributes on `<full-screen-toggle>`
+
+### active
+
+Boolean. Will be present if fullscreen is currently active.
+
+### supported
+
+Boolean. Will be present if fullscreen is supported in the current browser.
+
+## Properties on `<full-screen-toggle>`
+
+### active
+
+Read-only. Mirrors the state of the `active` attribute.
+
+### supported
+
+Read-only. Mirrors the state of the `supported` attribute.
 
 ## Events
 
